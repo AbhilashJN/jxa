@@ -1,0 +1,46 @@
+	let keynote = Application('Keynote')
+	let googleChrome = Application("Google Chrome");
+	keynote.includeStandardAdditions = true;
+	googleChrome.includeStandardAdditions = true;
+	let se = Application('System Events');
+	let content=[];
+	googleChrome.activate();
+	delay(1)
+	
+   for (j = 0; j <= googleChrome.windows.length-1; j++) {    
+    let window = googleChrome.windows[j];
+    for (let i = 0; i <= window.tabs.length-1; i++) {
+		
+        content[i] = window.tabs[i].url() ;				
+    }
+   }
+   		keynote.activate();
+		delay(2);
+		se.keyCode(36);
+		delay(2);
+		se.keystroke('References');
+		se.keyCode(53);
+		se.keyCode(48);
+		se.keyCode(48);
+		se.keyCode(36);
+		content.forEach((url)=>{
+		se.keystroke(url)
+		se.keyCode(36);
+		se.keyCode(36);
+		})
+		se.keyCode(51);
+		se.keyCode(51);
+
+		
+		// se.keyCode(36);
+		// se.keyCode(36);
+		
+		
+		// se.keyCode(53);
+		// se.keyCode(53);
+
+
+		
+
+
+

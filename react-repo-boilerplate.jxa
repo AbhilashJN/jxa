@@ -1,0 +1,75 @@
+let term = Application('Terminal');
+let chrome = Application('Google Chrome');
+let SystemEvents = Application("System Events")
+term.includeStandardAdditions = true;
+chrome.includeStandardAdditions = true;
+
+term.activate();
+
+let projectPath = term.displayDialog('Enter project path:',{defaultAnswer:'~/'}).textReturned;
+let projectName = term.displayDialog('Enter project name:',{defaultAnswer:''}).textReturned;
+let projectDescription='';
+
+try{
+    projectDescription = term.displayDialog('Enter project description (optional):',{defaultAnswer:''}).textReturned;
+}
+catch(e)
+{
+    projectDescription='';
+}
+
+let createReactApp = 'cd '+projectPath+';'
+                    +'create-react-app '+projectName+';'
+                    +'cd '+projectName+';';
+
+let createFolders = 'cd src;'
+                    +'mkdir components;'
+                    +'mkdir redux;'
+                    +'cd redux;'
+                    +'touch actions.js;'
+                    +'touch store.js;'
+                    +'mkdir reducers;'
+                    +'cd reducers;'
+                    +'touch index.js;';
+let eslintText='echo '+"'{\n\t\"extends\":\"airbnb\"\n}'" + ' > .eslintrc.json;'
+
+let initProject =   'cd '+projectPath+'/'+projectName+';'
+                    +'git init;'
+                    +'npm install --save-dev eslint;'
+                    +'npm install jest redux react-redux eslint-config-airbnb;'
+                    +eslintText;
+
+
+            
+let initialCommit = 'git add .;git commit -m "Initial commit";'
+                        +'code '+projectPath+'/'+projectName+';';
+term.doScript(
+    createReactApp
+    +createFolders
+    +initProject
+    +initialCommit
+);
+
+chrome.activate();
+chrome.openLocation('https://github.com/new');
+delay(3);
+SystemEvents.keystroke(projectName);
+SystemEvents.keyCode(48);
+delay(3);
+if(projectDescription!==''){
+    SystemEvents.keystroke(projectDescription);
+    SystemEvents.keyCode(48);
+    SystemEvents.keyCode(48);
+    SystemEvents.keyCode(48);
+    SystemEvents.keyCode(48);
+    SystemEvents.keyCode(48);
+    SystemEvents.keyCode(48);
+    delay(2);
+    SystemEvents.keyCode(36);
+}
+
+
+
+
+
+
